@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Peka.Online</title>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="http://momentjs.com/downloads/moment.min.js"></script>
+    <script type="text/javascript">
+        function getFormattedDataString(stamp) {
+            var date = new Date(stamp*1000);
+            return moment(date).format('DD-MM-YYYY HH:mm');
+        }
+
+        $(function () {
+            $.ajax({
+                url: "/stats"
+            }).done(function(data) {
+                $.each(data, function (i, val) {
+                    $('table tbody').append("<tr>" +
+                        "<td>"+getFormattedDataString(val.Time)+"</td>" +
+                        "<td>"+val.GGMessages+"</td>" +
+                        "<td>"+val.PekaMessages+"</td>" +
+                        "<td>"+val.GGUniqUsers+"</td>" +
+                        "<td>"+val.PekaUniqUsers+"</td>" +
+                        "</tr>");
+                })
+            });
+        })
+    </script>
+</head>
+<body>
+
+<h1>Peka.online</h1>
+
+<p>
+    Сайт на коленке от drewoko за пару часов. Стригеренный <a href="http://peka2.tv/2016/12/29/poseshaemost-portala-goodgame-ru">http://peka2.tv/2016/12/29/poseshaemost-portala-goodgame-ru</a> статьёй. <br>
+    Решил посмотреть реальную статистику активных пользователей на двух порталах. <br>
+    Как это считается? Берутся текущие активные, не скрытые каналы (и не тв и рестримы и без мейнчатов) и считаются сообщения и уникальные пользователи раз в минуту. Так что, тут нет всяких анти-майданов, акуджи и т.д
+    Графики будут потом, когда будет больше информации и нормальный дизайн.
+
+    Ах... и про ГГ. разработчики АПИ ГГ, и люди, которые поддерживают его... Я ваших мамок в ресторан водил...
+</p>
+
+<div>
+    <table border="1">
+        <thead>
+            <tr>
+                <th width="160">Время</th>
+                <th>Сообщений за ед. времени на GoodGame.ru</th>
+                <th>Сообщений за ед. времени на Peka2.tv</th>
+                <th>Уникальных пользователей за ед. времени на GoodGame.ru</th>
+                <th>Уникальных пользователей за ед. времени на Peka2.tv</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-60808503-5', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
+</body>
+</html>
