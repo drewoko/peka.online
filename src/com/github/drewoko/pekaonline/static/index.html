@@ -15,15 +15,35 @@
             $.ajax({
                 url: "/stats"
             }).done(function(data) {
+                var tbody = document.createElement('tbody')
+                
                 $.each(data, function (i, val) {
-                    $('table tbody').append("<tr>" +
-                        "<td>"+getFormattedDataString(val.Time)+"</td>" +
-                        "<td>"+val.GGMessages+"</td>" +
-                        "<td>"+val.PekaMessages+"</td>" +
-                        "<td>"+val.GGUniqUsers+"</td>" +
-                        "<td>"+val.PekaUniqUsers+"</td>" +
-                        "</tr>");
-                })
+                    var tr = document.createElement('tr');
+        
+                    var td = document.createElement('td');
+                    td.innerHTML = getFormattedDataString(val.Time);
+                    tr.appendChild(td);
+
+                    td = document.createElement('td');
+                    td.innerHTML = getFormattedDataString(val.GGMessages);
+                    tr.appendChild(td);
+
+                    td = document.createElement('td');
+                    td.innerHTML = getFormattedDataString(val.PekaMessages);
+                    tr.appendChild(td);
+
+                    td = document.createElement('td');
+                    td.innerHTML = getFormattedDataString(val.GGUniqUsers);
+                    tr.appendChild(td);
+
+                    td = document.createElement('td');
+                    td.innerHTML = getFormattedDataString(val.PekaUniqUsers);
+                    tr.appendChild(td);
+
+                    tbody.appendChild(tr);
+                });
+
+                $('table').append(tbody);
             });
         })
     </script>

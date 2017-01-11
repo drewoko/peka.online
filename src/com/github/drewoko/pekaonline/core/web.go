@@ -1,6 +1,7 @@
 package core
 
 import (
+	"github.com/gin-gonic/contrib/gzip"
 	"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
 	"log"
@@ -21,6 +22,7 @@ func StartWeb(config *Config, db *DataBase) {
 		ginInst.Use(static.Serve("/", static.LocalFile(config.Static, true)))
 	} else {
 		ginInst.Use(static.Serve("/", BinaryFileSystem("static")))
+		ginInst.Use(gzip.Gzip(gzip.DefaultCompression))
 	}
 
 	ginInst.NoRoute(redirect)
@@ -31,31 +33,31 @@ func StartWeb(config *Config, db *DataBase) {
 
 		var resp []StatisticsResponseStruct
 
-		for i := 0; i<len(statistics); i = i+2 {
+		for i := 0; i < len(statistics); i = i + 2 {
 
 			ggStat := statistics[i]
 			pekaStat := statistics[i+1]
 
 			resp = append(resp, StatisticsResponseStruct{
-				Time:ggStat["externalTime"].(string),
-				GGMessages:ggStat["messageCount"].(int),
-				PekaMessages:pekaStat["messageCount"].(int),
-				GGUniqUsers:ggStat["uniqUsers"].(int),
-				PekaUniqUsers:pekaStat["uniqUsers"].(int),
+				Time:          ggStat["externalTime"].(string),
+				GGMessages:    ggStat["messageCount"].(int),
+				PekaMessages:  pekaStat["messageCount"].(int),
+				GGUniqUsers:   ggStat["uniqUsers"].(int),
+				PekaUniqUsers: pekaStat["uniqUsers"].(int),
 			})
 		}
 
 		c.JSON(200, resp)
 	})
 
-	ginInst.Run(":"+config.Port)
+	ginInst.Run(":" + config.Port)
 }
 
 type StatisticsResponseStruct struct {
-	Time string
-	GGMessages int
-	PekaMessages int
-	GGUniqUsers int
+	Time          string
+	GGMessages    int
+	PekaMessages  int
+	GGUniqUsers   int
 	PekaUniqUsers int
 }
 
