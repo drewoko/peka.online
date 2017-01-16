@@ -5,48 +5,7 @@
     <title>Peka.Online</title>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="http://momentjs.com/downloads/moment.min.js"></script>
-    <script type="text/javascript">
-        function getFormattedDataString(stamp) {
-            var date = new Date(stamp*1000);
-            return moment(date).format('DD-MM-YYYY HH:mm');
-        }
-
-        $(function () {
-            $.ajax({
-                url: "/stats"
-            }).done(function(data) {
-                var tbody = document.createElement('tbody')
-                
-                $.each(data, function (i, val) {
-                    var tr = document.createElement('tr');
-        
-                    var td = document.createElement('td');
-                    td.innerHTML = getFormattedDataString(val.Time);
-                    tr.appendChild(td);
-
-                    td = document.createElement('td');
-                    td.innerHTML = val.GGMessages;
-                    tr.appendChild(td);
-
-                    td = document.createElement('td');
-                    td.innerHTML = val.PekaMessages;
-                    tr.appendChild(td);
-
-                    td = document.createElement('td');
-                    td.innerHTML = val.GGUniqUsers;
-                    tr.appendChild(td);
-
-                    td = document.createElement('td');
-                    td.innerHTML = val.PekaUniqUsers;
-                    tr.appendChild(td);
-
-                    tbody.appendChild(tr);
-                });
-
-                $('table').append(tbody);
-            });
-        })
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 </head>
 <body>
 
@@ -60,6 +19,10 @@
 
     Ах... и про ГГ. разработчики АПИ ГГ, и люди, которые поддерживают его... Я ваших мамок в ресторан водил...
 </p>
+
+<div id="parent" style="width: 100%; height: 400px; margin-bottom: 30px;">
+    <canvas id="myChart"></canvas>
+</div>
 
 <div>
     <table border="1">
@@ -86,6 +49,8 @@
     ga('send', 'pageview');
 
 </script>
+
+<script src="/main.js"></script>
 
 </body>
 </html>
