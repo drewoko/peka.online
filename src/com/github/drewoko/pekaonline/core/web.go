@@ -50,6 +50,12 @@ func StartWeb(config *Config, db *DataBase) {
 		c.JSON(200, resp)
 	})
 
+	ginInst.GET("/stats/aggregate", func(c *gin.Context) {
+		statistics := db.GetAggregateStatistics()
+
+		c.JSON(200, statistics)
+	})
+
 	ginInst.Run(":" + config.Port)
 }
 
